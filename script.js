@@ -99,18 +99,6 @@ async function startGame() {
                 break;
             }
 
-            while (vidas_restantes > 0 && letrasAdivinadas.includes("_")) {
-                console.log("ste es el juego del ahorcadoO");
-                console.log("Palabra: " + letrasAdivinadas);
-                console.log("Vidas restantes: " + vidas_restantes);
-                console.log("Letras usadas: " + letrasUsadas);
-                let entrada = await getUserInput("Ingresa una letra que esten todas en mayuscula O introduce tu cédula para cerrar el programa (osea pon si quieres terminar la cedula del programador 33.229.006): ");
-
-                if (entrada === cedulaProgramador) {
-                    console.log("Cédula confirmada: sesión cerrada.");
-                    continuar = "no";
-                    break;
-                }
                 funcion_del_juego(entrada.toUpperCase());
                 function funcion_del_juego(letra) {
 
@@ -118,6 +106,7 @@ async function startGame() {
                         console.log("Error Por favor introduce una letra.");
                         return;
                     }
+
                     if (letrasUsadas.includes(letra)) {
                         console.log("Ya usaste la letra " + letra + ". Intenta con otra.");
                         return;
@@ -138,15 +127,15 @@ async function startGame() {
                         vidas_restantes;
                     }
                 }
-            }
-            if (!letrasAdivinadas.includes("_")) {
+            
+            if (!letrasAdivinadas.includes("_")) { 
                 console.log("Felicidades Ganaste, La palabra era: " + palabraSecreta);
                 victoria++;
             }
             if (vidas_restantes === 0) {
                 console.log("Perdon pero te quedaste sin vidas, La palabra era: " + palabraSecreta);
                 derrota++;
-            }
+            } 
         }
         continuar = await getUserInput("quieres continuar? si/no");
     }

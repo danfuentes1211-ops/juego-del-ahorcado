@@ -47,14 +47,12 @@ function getUserInput(question) {
 
 startGame();
 
-
-
 let victoria = 0;
 let derrota = 0;
 let vidas_restantes = 0;
 let continuar = "si";
 
-let Lista_Palabras =[
+let Lista_Palabras = [
     "PROGRAMA", "VARIABLE", "FUNCIONES", "SISTEMAS", "LOGARITM", "PROYECTO",
     "ESTUDIAN", "CIBERNET", "CONSOLA", "LENGUAJE", "PANTALLA", "TECLADOS",
     "INTERNET", "GRAFICOS", "ARCHIVOS", "MEMORIAS", "PROCESOS", "CUADRADO",
@@ -72,35 +70,84 @@ let Lista_Palabras =[
     "FLOTANTE", "FLEXIBLE", "REDISEÑO", "ADAPTADO", "VERSIONA", "GIT_HUB",
     "REPOSIT", "RAMASGIT", "FUSIONAR", "CONFLICT", "ENTORNO", "TERMINAL",
     "COMANDOS", "SCRIPTS", "BINARIOS", "COMPRESO", "LIBRERIA"
-]
+];
 
-async function startGame(){
-        username = await getUserInput("cual es tu nombre?");
-        list_name=[username];
-        list_name.push(username);
-        let cedulaProgramador = "123456789";
-        let intentosEchos = 6;
-   
-    while (true){
-        let indice = Math.floor(Math.random() * 100)
-        let palabraSecreta = Lista_Palabras[indice].toUpperCase(); //aqui tuve que pedir un poco de ayuda a la IA para que se escoja la palabra aleatoria
+async function startGame() {
+    username = await getUserInput("cual es tu nombre?");
+    list_name = [username];
+    list_name.push(username);
+    let cedulaProgramador = "33.229.006";
+    let intentosEchos = 6;
+
+    while (continuar === "si") {
+        let indice = Math.floor(Math.random() * 100);
+        let palabraSecreta = Lista_Palabras[indice].toUpperCase();
         let letrasAdivinadas = [];
-        let letrasUsadas = "";
-        for(let i in palabraSecreta) {
+        let letrasUsadas = " ";
+        for (let i in palabraSecreta) {
             letrasAdivinadas[i] = "_";
         }
-        while(intentosEchos > 0 && letrasAdivinadas.includes("_")){
+
+        while (intentosEchos > 0 && letrasAdivinadas.includes("_")) {
             console.log("este es el juego del ahorcado");
-            console.log("palabras "+letrasAdivinadas);
-            console.log("vidas restantes: "+intentosEchos);
-            console.log("Letras usadas: "+letrasUsadas);
-            let entrada = await getUserInput("Ingresa una letra que esten todas en mayuscula\n O introduce tu cédula para cerrar el programa (osea pon si quieres terminar 123456789): ");
-            if (entrada = cedulaProgramador){
-                console.log("cedula confirmada: seccion serrada");
+            console.log("palabras " + letrasAdivinadas);
+            console.log("vidas restantes: " + intentosEchos);
+            console.log("Letras usadas: " + letrasUsadas);
+            let entrada = await getUserInput("Ingresa una letra que esten todas en mayuscula O introduce tu cédula para cerrar el programa (osea pon si quieres terminar la cedula del programador 33.229.006): ");
+            if (entrada === cedulaProgramador) {
+                console.log("cedula confirmada: seccion cerrada");
                 break;
             }
+
+            while (intentosEchos > 0 && letrasAdivinadas.includes("_")) {
+                console.log("ste es el juego del ahorcadoO");
+                console.log("Palabra: " + letrasAdivinadas);
+                console.log("Vidas restantes: " + intentosEchos);
+                console.log("Letras usadas: " + letrasUsadas);
+                let entrada = await getUserInput("Ingresa una letra que esten todas en mayuscula O introduce tu cédula para cerrar el programa (osea pon si quieres terminar la cedula del programador 33.229.006): ");
+
+                if (entrada === cedulaProgramador) {
+                    console.log("Cédula confirmada: sesión cerrada.");
+                    continuar = "no";
+                    break;
+                }
+                funcion_del_juego(entrada.toUpperCase());
+                function funcion_del_juego(letra) {
+
+                    if (letra.length !== 1) {
+                        console.log("Error Por favor introduce una letra.");
+                        return;
+                    }
+                    if (letrasUsadas.includes(letra)) {
+                        console.log("Ya usaste la letra " + letra + ". Intenta con otra.");
+                        return;
+                    }
+
+                    letrasUsadas = letrasUsadas + letra + " ";
+
+                    if (palabraSecreta.includes(letra)) {
+                        console.log("Bien hecho La '" + letra + "' sí está.");
+                        for (let i = 0; i < palabraSecreta.length; i++) {
+                            if (palabraSecreta[i] === letra) {
+                                letrasAdivinadas[i] = letra;
+                            }
+                        }
+                    } else {
+                        console.log("La letra '" + letra + "' no está en la palabra.");
+                        intentosEchos;
+                    }
+                }
+            }
+            if (!letrasAdivinadas.includes("_")) {
+                console.log("Felicidades Ganaste, La palabra era: " + palabraSecreta);
+                victoria++;
+            }
+            if (intentosEchos === 0) {
+                console.log("Perdon pero te quedaste sin vidas, La palabra era: " + palabraSecreta);
+                derrota++;
+            }
         }
-       continuar = await getUserInput("quieres continuar? si/no");
+        continuar = await getUserInput("quieres continuar? si/no");
     }
     // Aquí va la lógica principal del juego.
     return rl.close(); // Linea que hace que el programa se cierre una vez termine el juego. No la borres ni comentes.

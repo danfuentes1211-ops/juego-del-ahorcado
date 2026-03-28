@@ -49,7 +49,7 @@ startGame();
 
 let victoria = 0;
 let derrota = 0;
-let vidas_restantes = 0;
+let vidas_restantes = 3;
 let continuar = "si";
 
 let Lista_Palabras = [
@@ -77,7 +77,7 @@ async function startGame() {
     list_name = [username];
     list_name.push(username);
     let cedulaProgramador = "33.229.006";
-    let intentosEchos = 6;
+    let intentosEchos = 3;
 
     while (continuar === "si") {
         let indice = Math.floor(Math.random() * 100);
@@ -88,10 +88,10 @@ async function startGame() {
             letrasAdivinadas[i] = "_";
         }
 
-        while (intentosEchos > 0 && letrasAdivinadas.includes("_")) {
+        while (vidas_restantes > 0 && letrasAdivinadas.includes("_")) {
             console.log("este es el juego del ahorcado");
             console.log("palabras " + letrasAdivinadas);
-            console.log("vidas restantes: " + intentosEchos);
+            console.log("vidas restantes: " + vidas_restantes);
             console.log("Letras usadas: " + letrasUsadas);
             let entrada = await getUserInput("Ingresa una letra que esten todas en mayuscula O introduce tu cédula para cerrar el programa (osea pon si quieres terminar la cedula del programador 33.229.006): ");
             if (entrada === cedulaProgramador) {
@@ -99,10 +99,10 @@ async function startGame() {
                 break;
             }
 
-            while (intentosEchos > 0 && letrasAdivinadas.includes("_")) {
+            while (vidas_restantes > 0 && letrasAdivinadas.includes("_")) {
                 console.log("ste es el juego del ahorcadoO");
                 console.log("Palabra: " + letrasAdivinadas);
-                console.log("Vidas restantes: " + intentosEchos);
+                console.log("Vidas restantes: " + vidas_restantes);
                 console.log("Letras usadas: " + letrasUsadas);
                 let entrada = await getUserInput("Ingresa una letra que esten todas en mayuscula O introduce tu cédula para cerrar el programa (osea pon si quieres terminar la cedula del programador 33.229.006): ");
 
@@ -134,7 +134,8 @@ async function startGame() {
                         }
                     } else {
                         console.log("La letra '" + letra + "' no está en la palabra.");
-                        intentosEchos;
+                        vidas_restantes--;
+                        vidas_restantes;
                     }
                 }
             }
@@ -142,7 +143,7 @@ async function startGame() {
                 console.log("Felicidades Ganaste, La palabra era: " + palabraSecreta);
                 victoria++;
             }
-            if (intentosEchos === 0) {
+            if (vidas_restantes === 0) {
                 console.log("Perdon pero te quedaste sin vidas, La palabra era: " + palabraSecreta);
                 derrota++;
             }
